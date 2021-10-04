@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { Suspense, useContext, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -7,6 +7,7 @@ import {
   useHistory,
 } from "react-router-dom";
 import { useAxios } from "../constants";
+import { LoginScreen } from "../screens";
 import { StateContext } from "../state";
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -48,21 +49,6 @@ function Home() {
   );
 }
 
-function Login() {
-  const { signIn }: any = useContext(StateContext);
-  const history = useHistory();
-  const handleLogin = () => {
-    signIn("userToken");
-    history.push("/protected");
-  };
-  return (
-    <div>
-      <p>LoginComponent</p>
-      <button onClick={handleLogin}>Login</button>
-    </div>
-  );
-}
-
 function Account() {
   const { signOut }: any = useContext(StateContext);
   const handleSignOut = () => signOut();
@@ -71,6 +57,9 @@ function Account() {
       <p>Account Component</p>
       <Link to="/">Back home</Link>
       <p>You signed in, you can now view this page</p>
+      <a href="http://localhost:8000/o/authorize?state=random_state_string&client_id=vz28lyw0WNzAJbNFpScrahr8YejQMebNTtI8Q9PB&response_type=code">
+        Sign in with artik
+      </a>
       <button onClick={handleSignOut}>Sign Out</button>
     </div>
   );
@@ -88,7 +77,9 @@ export default function AppNavigation() {
           <Home />
         </Route>
         <Route exact path="/login">
-          <Login />
+          <Suspense fallback={<div></div>}>
+            <LoginScreen />
+          </Suspense>
         </Route>
         <ProtectedRoute component={Account} exact path="/protected" />
         <Route exact path="**">
