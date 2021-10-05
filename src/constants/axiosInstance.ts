@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const endpoint = "https://jsonplaceholder.typicode.com";
+const endpoint = "http://localhost:8000";
 const userToken = localStorage.getItem("userToken");
 
 const headers = {

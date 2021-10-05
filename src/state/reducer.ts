@@ -18,6 +18,23 @@ const reducer = (state: any, action: any) => {
         user: action.payload,
         isLoggedIn: true,
       };
+    case "UPDATE_CARS":
+      return {
+        ...state,
+        cars: action.payload,
+      };
+    case "ADD_CAR":
+      const cars = state.cars;
+      const newCars = cars.push(action.payload);
+      
+      return {
+        ...state,
+        cars: newCars,
+      };
+    default:
+      return {
+        ...state,
+      };
   }
 };
 

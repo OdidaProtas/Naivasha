@@ -1,4 +1,4 @@
-export default function bootstrapAsync(dispatch: any) {
+export default function bootstrapAsync(dispatch: any,) {
   let userToken;
 
   try {

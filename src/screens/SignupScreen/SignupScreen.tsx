@@ -1,8 +1,7 @@
 import { Container, Grid, Typography } from "@mui/material";
-import React, { Suspense, useContext, useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { FormComponent, LogoComponent } from "../../components";
-import { StateContext } from "../../state";
-import useStyles from "./LoginScreen.styles";
+import useStyles from "./SignupScreen.styles";
 import * as Yup from "yup";
 import { useHistory } from "react-router";
 import { useAxios } from "../../constants";
@@ -11,29 +10,35 @@ import useSnackBar from "../../hooks/useSnackBar";
 const fields = [
   { name: "username", type: "text", label: "Username" },
   { name: "password", type: "password", label: "Password" },
+  { name: "confirmPassword", type: "password", label: "Confirm Password" },
 ];
 
 const validationSchema = Yup.object().shape({
   username: Yup.string().required("Username is required"),
-  password: Yup.string().required("Password is required"),
+  password: Yup.string()
+    .required("Password is required")
+    .min(8, "Password must be a minimum of 8 characters"),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password"), null], "Passwords must match")
+    .required("Password confirmatin is required"),
 });
 
 const initialState = {
   username: "",
   password: "",
+  confirmPassword: "",
 };
 
 const requestOptions: any = {
-  endpoint: "/authentication/token/",
+  endpoint: "/authentication/register/",
   method: "post",
 };
 
-export default function LoginScreen() {
+export default function SignupScreen() {
   const classes = useStyles();
   const history = useHistory();
-  const { signIn }: any = useContext(StateContext);
+  const { loading, processRequest, data }: any = useAxios();
   const { open, toggle, msg, setMsg, severity, setSeverity } = useSnackBar();
-  const { processRequest, loading, data }: any = useAxios();
   const handleSuccess = () => {};
   const handleError = () => {
     setMsg("An error occured");
@@ -51,15 +56,15 @@ export default function LoginScreen() {
 
   useEffect(() => {
     if (data) {
-      if (data.access_token) {
-        signIn(data.access_token);
-        setSeverity("success");
-        setMsg("Login successful");
-        toggle();
-        history.push("/");
+      if (data.username) {
+        setMsg("User already exists");
+        setSeverity("error");
       } else {
-        handleError();
+        setSeverity("success");
+        setMsg("Registration successful, please login to continue");
       }
+      toggle();
+      history.push("/login");
     }
   }, [data]);
 
@@ -74,13 +79,13 @@ export default function LoginScreen() {
             </Suspense>
           </div>
           <Typography className={classes.title} variant="h6">
-            Sign In
+            Create Account
           </Typography>
           <div className={classes.loginContainer}>
             <Suspense fallback={<div></div>}>
               <FormComponent
-                fields={fields}
                 handleSubmit={handleSubmit}
+                fields={fields}
                 validationShema={validationSchema}
                 initialState={initialState}
                 loading={loading}
@@ -94,10 +99,10 @@ export default function LoginScreen() {
             </Suspense>
             <div className={classes.footer}>
               <Typography
-                onClick={() => history.push("/signup")}
+                onClick={() => history.push("/login")}
                 className={classes.footerText}
               >
-                Dont have an account? Register
+                Already registered? Sign in
               </Typography>
             </div>
           </div>

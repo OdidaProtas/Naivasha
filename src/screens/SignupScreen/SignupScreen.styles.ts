@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: "23px",
       display: "flex",
       justifyContent: "center",
-      marginTop: "36px",
+    marginTop: "36px",
     },
     loginContainer: {
       marginTop: "36px",
