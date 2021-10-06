@@ -31,6 +31,7 @@ export default function CarDetailsScreen() {
         <Grid item xs>
           <LogoComponent />
           <div>
+            <Typography sx={{textAlign:"center", marginTop:"36px"}}>{make} - model {model}</Typography>
             <img className={classes.banner} src={image_one} alt="image one" />
             <div>
               <Typography>Make: {make} </Typography>

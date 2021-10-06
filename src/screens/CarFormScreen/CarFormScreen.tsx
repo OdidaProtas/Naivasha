@@ -7,6 +7,7 @@ import { urlPattern, useAxios } from "../../constants";
 import useSnackBar from "../../hooks/useSnackBar";
 import { useHistory } from "react-router-dom";
 import { StateContext } from "../../state";
+import NavbarComponent from "../../components/NavbarComponent/NavbarComponent";
 
 const fields: any = [
   { name: "make", type: "text", label: "Car Make" },
@@ -56,9 +57,9 @@ export default function CarFormScreen() {
   const { open, toggle, msg, setMsg, severity, setSeverity } = useSnackBar();
   const { loading, processRequest, data }: any = useAxios();
 
-  const { addCar }: any = useContext(StateContext);
+  const { updateCars, getAppState }: any = useContext(StateContext);
+  const { cars } = getAppState();
 
-  const handleSuccess = () => {};
   const handleError = () => {
     setMsg("An error occured");
     setSeverity("error");
@@ -73,15 +74,16 @@ export default function CarFormScreen() {
     });
   };
 
-  useEffect(() => {
-    if (data) {
-      addCar(data);
-      history.push(`/car/${data.id}`);
-    }
-  }, [data]);
+  const handleSuccess = (data: any) => {
+    let current = cars;
+    current.push(data);
+    updateCars(current);
+    history.push(`/car/${data.id}`);
+  };
 
   return (
     <Container>
+      <NavbarComponent />
       <div>
         <Grid container>
           <Grid item xs></Grid>

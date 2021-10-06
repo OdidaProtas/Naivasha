@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const endpoint = "http://localhost:8000";
+
+const endpoint = "https://obscure-headland-67988.herokuapp.com";
 const userToken = localStorage.getItem("userToken");
 
 const headers = {

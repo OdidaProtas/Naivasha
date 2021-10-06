@@ -5,6 +5,7 @@ import useStyles from "./SignupScreen.styles";
 import * as Yup from "yup";
 import { useHistory } from "react-router";
 import { useAxios } from "../../constants";
+import { client_secret, client_id } from "../../constants/authKeys";
 import useSnackBar from "../../hooks/useSnackBar";
 
 const fields = [
@@ -48,7 +49,7 @@ export default function SignupScreen() {
   const handleSubmit = (values: any) => {
     processRequest({
       ...requestOptions,
-      payload: values,
+      payload: { ...values, client_secret, client_id },
       errorHandler: handleError,
       successHandler: handleSuccess,
     });

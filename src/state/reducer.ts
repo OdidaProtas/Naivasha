@@ -24,12 +24,16 @@ const reducer = (state: any, action: any) => {
         cars: action.payload,
       };
     case "ADD_CAR":
-      const cars = state.cars;
+      let cars = state.cars;
       const newCars = cars.push(action.payload);
-      
       return {
         ...state,
         cars: newCars,
+      };
+    case "UPDATE_USERS":
+      return {
+        ...state,
+        users: action.payload,
       };
     default:
       return {

@@ -13,6 +13,9 @@ const stateMemo = (dispatch: any, state: any) => ({
   addCar: async (data: any) => {
     dispatch({ type: "ADD_CAR", payload: data });
   },
+  updateUsers: async (data: any) => {
+    dispatch({ type: "UPDATE_USERS", payload: data });
+  },
 });
 
 export default stateMemo;

@@ -16,6 +16,7 @@ export default function NavbarComponent() {
           <li onClick={() => history.push("/login")}>login</li>
         )}
         <li onClick={() => history.push("/new")}>Add new entry</li>
+        <li onClick={() => history.push("/community")}>Community</li>
       </ul>
     </div>
   );

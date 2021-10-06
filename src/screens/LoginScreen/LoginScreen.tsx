@@ -8,6 +8,8 @@ import { useHistory } from "react-router";
 import { useAxios } from "../../constants";
 import useSnackBar from "../../hooks/useSnackBar";
 
+import { client_secret, client_id } from "../../constants/authKeys";
+
 const fields = [
   { name: "username", type: "text", label: "Username" },
   { name: "password", type: "password", label: "Password" },
@@ -41,9 +43,11 @@ export default function LoginScreen() {
     toggle();
   };
   const handleSubmit = (values: any) => {
+    const payload = { ...values, client_secret, client_id };
+    localStorage.setItem("username", values.username);
     processRequest({
       ...requestOptions,
-      payload: values,
+      payload: payload,
       errorHandler: handleError,
       successHandler: handleSuccess,
     });

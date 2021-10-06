@@ -4,6 +4,7 @@ export const initialState = {
   user: null,
   isLoggedIn: false,
   cars: [],
+  users: [],
 };
 
 const StateContext = createContext(initialState);
